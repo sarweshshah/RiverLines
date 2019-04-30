@@ -1,3 +1,14 @@
+import codeanticode.syphon.*;
+import java.util.List;
+import org.openkinect.processing.*;
+
+Kinect2 kinect2;
+SyphonServer server;
+
+float kinMinThresh = 900;
+float kinMaxThresh = 1940;
+PImage img;
+
 int Strength = 40;
 int v = 40;
 float a = 0.01;
@@ -14,6 +25,12 @@ void setup() {
   fullScreen();
   //size(400, 400);
   
+  kinect2 = new Kinect2(this);
+  kinect2.initDepth();
+  kinect2.initDevice();
+
+  img = createImage(kinect2.depthWidth, kinect2.depthHeight, RGB);
+  
   background(0);
 
   //seting up particles
@@ -22,6 +39,8 @@ void setup() {
     float valY = random(-height/2, height/2);
     particles.add(new Particle(valX, valY, t, stepTime));
   }
+  
+  //server = new SyphonServer(this, "river lines");
 }
 
 void draw() {    
