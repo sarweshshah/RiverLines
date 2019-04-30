@@ -63,11 +63,5 @@ void draw() {
 
 public void mouseClicked(MouseEvent evt) {
   if (evt.getCount() == 2)
-  doubleClicked();
-}
-
-void doubleClicked() {
-  if (a > 10) {
-    a = 0.02;
-  }
+  a = 0.02;
 }
