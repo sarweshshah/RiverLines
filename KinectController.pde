@@ -9,14 +9,14 @@ class KinectController {
   float kinMinThresh = 900;
   float kinMaxThresh = 970;
   PImage img;
+  float mappedX, mappedY;
+  boolean showKinectWindow = false;
 
-  boolean isKinectViewerOn = false;
-
-  KinectController() {
+  KinectController(boolean _window) {
     kinect2.initDepth();
     kinect2.initDevice();
-
     img = createImage(kinect2.depthWidth, kinect2.depthHeight, RGB);
+    this.showKinectWindow = _window;
   }
 
   void update() {
@@ -46,7 +46,7 @@ class KinectController {
     }
 
     img.updatePixels();
-    if (isKinectViewerOn) {
+    if (showKinectWindow) {
       pushMatrix();
       translate(-width/2, -height/2);
       image(img, 0, 0);
@@ -55,22 +55,20 @@ class KinectController {
 
     float avgX = sumX / totalPixels;
     float avgY = sumY / totalPixels;
-    float mappedX = mouseX; 
-    float mappedY = mouseY;
+    this.mappedX = mouseX; 
+    this.mappedY = mouseY;
 
     if (totalPixels >= 900) {
-      mappedX = map(avgX, 0, kinect2.depthWidth, -width/2, width/2);
-      mappedY = map(avgY, 0, kinect2.depthHeight, -height/2, height/2);
+      this.mappedX = map(avgX, 0, kinect2.depthWidth, 0, width);
+      this.mappedY = map(avgY, 0, kinect2.depthHeight, 0, height);
 
-      if (isKinectViewerOn) {
+      if (showKinectWindow) {
         pushMatrix();
         translate(-width/2, -height/2);
         fill(150, 0, 255);
         ellipse(avgX, avgY, 15, 15);
         popMatrix();
       }
-      fill(150, 255, 255);
-      ellipse(mappedX, mappedY, 15, 15);
     }
   }
 }
