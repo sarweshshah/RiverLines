@@ -1,7 +1,5 @@
 KinectController kinect;
 
-int Strength = 40;
-int v = 40;
 float a = 0.01;
 int max_no_of_particles = 800;
 

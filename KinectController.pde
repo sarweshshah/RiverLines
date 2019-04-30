@@ -10,7 +10,7 @@ class KinectController {
   float kinMaxThresh = 970;
   PImage img;
 
-  boolean showArrestedPoints = true;
+  boolean isKinectViewerOn = false;
 
   KinectController() {
     kinect2.initDepth();
@@ -46,7 +46,7 @@ class KinectController {
     }
 
     img.updatePixels();
-    if (showArrestedPoints) {
+    if (isKinectViewerOn) {
       pushMatrix();
       translate(-width/2, -height/2);
       image(img, 0, 0);
@@ -55,14 +55,14 @@ class KinectController {
 
     float avgX = sumX / totalPixels;
     float avgY = sumY / totalPixels;
-    float mappedX = 0; 
-    float mappedY = 0;
+    float mappedX = mouseX; 
+    float mappedY = mouseY;
 
     if (totalPixels >= 900) {
       mappedX = map(avgX, 0, kinect2.depthWidth, -width/2, width/2);
       mappedY = map(avgY, 0, kinect2.depthHeight, -height/2, height/2);
 
-      if (showArrestedPoints) {
+      if (isKinectViewerOn) {
         pushMatrix();
         translate(-width/2, -height/2);
         fill(150, 0, 255);
