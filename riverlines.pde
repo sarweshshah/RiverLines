@@ -26,6 +26,7 @@ void setup() {
 
 void draw() {    
   translate(width/2, height/2);
+  //rotate(radians(90));
 
   if (isTracing == true) {
     fill(0, 6);
@@ -55,8 +56,8 @@ void draw() {
   fill(60);
   stroke(0);
 
-  if (mousePressed && a < 210) {
-    a +=1;
+  if (mousePressed) {
+    a = 210;
   }
 }
 
