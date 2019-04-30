@@ -1,13 +1,4 @@
-import codeanticode.syphon.*;
-import java.util.List;
-import org.openkinect.processing.*;
-
-Kinect2 kinect2;
-SyphonServer server;
-
-float kinMinThresh = 900;
-float kinMaxThresh = 1940;
-PImage img;
+KinectController kinect;
 
 int Strength = 40;
 int v = 40;
@@ -24,12 +15,6 @@ void setup() {
   fullScreen(P3D);
   //size(400, 400);
 
-  kinect2 = new Kinect2(this);
-  kinect2.initDepth();
-  kinect2.initDevice();
-
-  img = createImage(kinect2.depthWidth, kinect2.depthHeight, RGB);
-
   background(0);
 
   //seting up particles
@@ -38,56 +23,15 @@ void setup() {
     float valY = random(-height/2, height/2);
     particles.add(new Particle(valX, valY, t, stepTime));
   }
-
-  server = new SyphonServer(this, "RiverLines");
+  
+  kinect = new KinectController();
 }
 
 void draw() {    
   translate(width/2, height/2);
   //rotate(radians(90));
-
-  img.loadPixels();
-
-  // Get the raw depth as array of integers
-  int[] depth = kinect2.getRawDepth();
-
-  float sumX = 0;
-  float sumY = 0;
-  float totalPixels = 0;
-
-  for (int x = 0; x < kinect2.depthWidth; x++) {
-    for (int y = 0; y < kinect2.depthHeight; y++) {      
-      int offset = x + y * kinect2.depthWidth;
-      int d = depth[offset];
-
-      if (d > kinMinThresh && d < kinMaxThresh) {
-        img.pixels[offset] = color(255, 0, 150);
-        sumX += x;
-        sumY += y;
-        totalPixels++;
-      } else {
-        img.pixels[offset] = color(51);
-      }
-    }
-  }
-
-  img.updatePixels();
-  image(img, 0, 0);
-
-  float avgX = sumX / totalPixels;
-  float avgY = sumY / totalPixels;
-  float mappedX = 0; 
-  float mappedY = 0;
-
-  fill(150, 0, 255);
-
-  if (totalPixels >= 400) {
-    mappedX = map(avgX, 0, kinect2.depthWidth, -width/2, width/2);
-    mappedY = map(avgY, 0, kinect2.depthHeight, -height/2, height/2);
-
-    ellipse(avgX, avgY, 15, 15);
-    ellipse(mappedX, mappedY, 15, 15);
-  }
+  
+  kinect.update();
 
   if (isTracing == true) {
     fill(0, 6);
