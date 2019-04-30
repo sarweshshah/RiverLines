@@ -42,7 +42,6 @@ void draw() {
     p.display();
 
     if ( p.x > width/2 || p.y > height/2 || p.x < -width/2 || p.y < -height/2 || // particle goes out of the screen
-      //(pow(p.x + mouseX/2 - width/2, 2) + pow(p.y - mouseY/2 + height/2, 2)) < a) {
       (pow(p.x + kinectController.mappedX/2 - width/2, 2) + pow(p.y - kinectController.mappedY/2 + height/2, 2)) < a) {
       particles.remove(i);
       currentParticle--;
@@ -69,8 +68,6 @@ public void mouseClicked(MouseEvent evt) {
 float Q (float x, float y) {
   float mappedX = kinectController.mappedX;
   float mappedY = kinectController.mappedY;
-  //return fieldStrength * ((-2 * (a * a) * (x + mouseX - width/2) * (y - mouseY + height/2))
-  //  / pow((pow(x + mouseX - width/2, 2) + pow(y - mouseY + height/2, 2)), 2));
   return fieldStrength * ((-2 * (a * a) * (x + mappedX - width/2) * (y - mappedY + height/2))
     / pow((pow(x + mappedX - width/2, 2) + pow(y - mappedY + height/2, 2)), 2));
 }
@@ -78,8 +75,6 @@ float Q (float x, float y) {
 float P(float x, float y) {
   float mappedX = kinectController.mappedX;
   float mappedY = kinectController.mappedY;
-  //return fieldStrength * (1 - ((a*a) * (pow(x + mouseX - width/2, 2) - pow(y - mouseY + height/2, 2)))
-  //  / pow((pow(x + mouseX - width/2, 2) + pow(y - mouseY + height/2, 2)), 2));
   return fieldStrength * (1 - ((a*a) * (pow(x + mappedX - width/2, 2) - pow(y - mappedY + height/2, 2)))
     / pow((pow(x + mappedX - width/2, 2) + pow(y - mappedY + height/2, 2)), 2));
 }
