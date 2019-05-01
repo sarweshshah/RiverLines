@@ -19,7 +19,7 @@ void setup() {
     particles.add(new Particle(valX, valY, stepTime));
   }
 
-  kinectController = new KinectController(false); // Change boolean to hide/show Kinect window
+  kinectController = new KinectController(true); // Change boolean to hide/show Kinect window
   noCursor();
 }
 
